@@ -21,7 +21,7 @@ static UnitTests *g_allTests = nullptr;
 
 static void registerUnitTest(KUnitTest *unitTest)
 {
-    if (!g_allTests )
+    if (!g_allTests)
         g_allTests = new UnitTests();
 
     g_allTests->push_back(unitTest);
