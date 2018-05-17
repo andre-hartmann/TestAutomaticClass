@@ -32,15 +32,17 @@ static void registerUnitTest(KUnitTest *unitTest)
     g_allTests->push_back(unitTest);
 }
 
-void runAllTests(void)
+int runAllTests(void)
 {
     if (!g_allTests) {
         std::cerr << "No tests registered." << endl;
-        return;
+        return -1;
     }
 
     for (auto test : *g_allTests)
         test->run();
+
+    return 0;
 }
 
 KUnitTest::KUnitTest(const char *name)  :
@@ -88,6 +90,5 @@ TEST(MyWorld)
 
 int main(int, char *[])
 {
-    runAllTests();
-    return 0;
+    return runAllTests();
 }
