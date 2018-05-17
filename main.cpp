@@ -1,10 +1,6 @@
 #include <iostream>
 #include <vector>
 
-class KUnitTest;
-
-typedef std::vector<KUnitTest *> UnitTests;
-
 class KUnitTest
 {
 public:
@@ -20,6 +16,7 @@ private:
     const std::string m_name;
 };
 
+typedef std::vector<KUnitTest *> UnitTests;
 static UnitTests *g_allTests = nullptr;
 
 static void registerUnitTest(KUnitTest *unitTest)
