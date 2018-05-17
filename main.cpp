@@ -1,8 +1,6 @@
 #include <iostream>
 #include <vector>
 
-using namespace std;
-
 class KUnitTest;
 
 typedef std::vector<KUnitTest *> UnitTests;
@@ -35,7 +33,7 @@ static void registerUnitTest(KUnitTest *unitTest)
 int runAllTests(void)
 {
     if (!g_allTests) {
-        std::cerr << "No tests registered." << endl;
+        std::cerr << "No tests registered." << std::endl;
         return -1;
     }
 
@@ -57,14 +55,14 @@ KUnitTest::~KUnitTest()
 
 void KUnitTest::run()
 {
-    std::cout << name() << ": start" << endl;
+    std::cout << name() << ": start" << std::endl;
 
     runTestImpl();
 
-    std::cout << name() << ": end" << endl;
+    std::cout << name() << ": end" << std::endl;
 }
 
-string KUnitTest::name() const
+std::string KUnitTest::name() const
 {
     return m_name;
 }
@@ -80,12 +78,12 @@ string KUnitTest::name() const
 
 TEST(Hello)
 {
-    std::cout << "In Test: '" << name() << "'" << endl;
+    std::cout << "In Test: '" << name() << "'" << std::endl;
 }
 
 TEST(MyWorld)
 {
-    std::cout << "In Test: '" << name() << "'" << endl;
+    std::cout << "In Test: '" << name() << "'" << std::endl;
 }
 
 int main(int, char *[])
