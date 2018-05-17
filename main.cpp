@@ -6,7 +6,6 @@ using namespace std;
 class KUnitTest;
 
 typedef std::vector<KUnitTest *> UnitTests;
-typedef UnitTests::iterator UnitTestIterator;
 
 class KUnitTest
 {
@@ -14,12 +13,10 @@ public:
     KUnitTest(const char *name);
     virtual ~KUnitTest();
 
-    void runTest();
-
-    // Abstract function, to enforce unit test implementation by derived classes
-    virtual void runTestImpl() = 0;
-
+    void run();
     std::string name() const;
+
+    virtual void runTestImpl() = 0; // Abstract function for test implementation in derived classes
 
 private:
     const std::string m_name;
@@ -27,7 +24,7 @@ private:
 
 static UnitTests *g_allTests = nullptr;
 
-void registerUnitTest(KUnitTest *unitTest)
+static void registerUnitTest(KUnitTest *unitTest)
 {
     if (!g_allTests )
         g_allTests = new UnitTests();
@@ -38,13 +35,12 @@ void registerUnitTest(KUnitTest *unitTest)
 void runAllTests(void)
 {
     if (!g_allTests) {
-        std::cout << "No tests registered" << endl;
+        std::cerr << "No tests registered." << endl;
         return;
     }
 
-    for (UnitTestIterator it = g_allTests->begin(); it != g_allTests->end(); ++it) {
-        static_cast<KUnitTest *>(*it)->runTest();
-    }
+    for (auto test : *g_allTests)
+        test->run();
 }
 
 KUnitTest::KUnitTest(const char *name)  :
@@ -57,7 +53,7 @@ KUnitTest::~KUnitTest()
 {
 }
 
-void KUnitTest::runTest()
+void KUnitTest::run()
 {
     std::cout << name() << ": start" << endl;
 
@@ -75,7 +71,7 @@ string KUnitTest::name() const
     class KUnitTest##x : public KUnitTest { \
     public: \
         KUnitTest##x() : KUnitTest(#x) { } \
-        void runTestImpl(); \
+        void runTestImpl() override; \
     }; \
     static KUnitTest##x x; \
     void KUnitTest##x::runTestImpl()
